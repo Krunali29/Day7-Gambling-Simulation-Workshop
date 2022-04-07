@@ -7,33 +7,44 @@ public class GamblingSimulator
     public static final int PERCENTAGE_50_STAKE=(STAKE/100)*50;
     public static final int HIGH_LIMIT=STAKE+PERCENTAGE_50_STAKE;
     public static final int LOW_LIMIT=STAKE-PERCENTAGE_50_STAKE;
+    public static final int START_DAY=1;
+    public static final int MAX_DAY=20;
+    public static final int STAKES_PER_DAY=50;
+    public static final int START_DOLLARS=0;
 
-    public static void main(String[] args) 
+    public static void main(String[] args)
     {
         System.out.println("Welcome to the Gambler Game");
-        int totalStake = STAKE;
-
-        while (totalStake < HIGH_LIMIT && totalStake > LOW_LIMIT)
+        int days = START_DAY;
+        int totalDollars = START_DOLLARS;
+        for (days = START_DAY; days <= MAX_DAY; days++)
         {
-            int game = (int) (Math.random() * 10) % 2;
-            if (game == 1) 
+            int totalStake = STAKE;
+
+            while (totalStake < HIGH_LIMIT && totalStake > LOW_LIMIT)
             {
-                totalStake = totalStake + BET;
-                System.out.println("Gambler won the bet and having total stack " + totalStake);
-            } else 
+                int luck = (int) (Math.random() * 10) % 2;
+                if (luck == 1) {
+                    totalStake = totalStake + BET;
+                } else {
+                    totalStake = totalStake - BET;
+                }
+            }
+            if (totalStake == HIGH_LIMIT)
             {
-                totalStake = totalStake - BET;
-                System.out.println("Gambler lost the bet and having total stack " + totalStake);
+                totalDollars += STAKES_PER_DAY;
+                System.out.println("Gambler won by " +totalDollars+" dollars on day "+days);
+            } else {
+                totalDollars -= STAKES_PER_DAY;
+                System.out.println("Gambler lost by " +totalDollars+" dollars on day "+days);
             }
         }
-        if(totalStake==HIGH_LIMIT)
+        if(totalDollars>START_DOLLARS)
         {
-            System.out.println("Gambler won by "+totalStake);
-        } else
-        {
-            System.out.println("Gambler lost by "+totalStake);
-
-      }
+            System.out.println("Gambler won " +totalDollars);
+        } else {
+            System.out.println("Gambler lost " + totalDollars);
+        }
     }
 }
 
